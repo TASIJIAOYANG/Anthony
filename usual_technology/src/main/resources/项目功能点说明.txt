@@ -1,0 +1,7 @@
+﻿1.Swagger使用说明:通过配置节省程序员编写接口文档的工作。
+    1.1. 前台访问地址：http://localhost:8080/swagger-ui.html
+    1.2. 通过在控制器中增加注解达到需求：
+            @ApiOperation(value="通过Redis中的Key获取对应的Value值", notes="获取Redis的Value")
+            @ApiImplicitParam(name = "key", value = "Redis的key值", paramType = "query", dataType = "String")
+            效果图：resources/pictures/01.png
+            代码：RedisController中的【get_Redis_Value】方法
