@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.dao.PersonInfoDao">
+    <!--列名称-->
+    <sql id="personInfoColumns">
+		a.id AS "id",
+		a.user_id AS "userId",
+		a.name AS "name",
+		a.create_date AS "createDate",
+		a.self_input as "selfInput"
+	</sql>
+
+    <!--<resultMap id="唯一的标识" type="映射的pojo对象">-->
+        <!--<id column="数据库表的主键字段" jdbcType="字段类型" property="映射实体类的主键属性" />-->
+        <!--<result column="数据库表的主键字段【跟数据库保持一致】" jdbcType="字段类型" property="映射实体类的主键属性【跟实体类属性保持一致】"/>-->
+
+        <!--下面这个主要用于实体类中引用其他的实体类的List-->
+        <!-- 集合中的property须为oftype定义的pojo对象的属性-->
+        <!--<collection property="实体类的集合属性" ofType="集合中的对象">-->
+            <!--<id column="集合中实体类对象对应的表的主键字段" jdbcType="字段类型" property="集合中实体类对象的主键属性" />-->
+            <!--<result column="可以为任意表的字段" jdbcType="字段类型" property="集合中的实体类对象的属性" />-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+
+    <!--结果集-->
+    <resultMap id="PersonInfoResult" type="com.springboot.entity.Person_Info">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="userid" column="user_id" />
+        <result property="selfInput" column="self_input" />
+    </resultMap>
+
+    <!--用于配置关联其他表的sql-->
+    <sql id="personListingJoins">
+    </sql>
+
+    <select id="get" resultType="com.springboot.entity.Person_Info">
+        SELECT
+        <include refid="personInfoColumns"/>
+        FROM person_info a
+        <include refid="personListingJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+
+    <select id="getPersonInfoList" resultMap="PersonInfoResult">
+        SELECT
+        <include refid="personInfoColumns"/>
+        FROM person_info a
+        <include refid="personListingJoins"/>
+        <where>
+
+            <if test="name != null and name != ''">
+                AND a.name LIKE concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert">
+		INSERT INTO person_info(user_id,name,self_input,create_date) VALUES (#{userid},#{name},#{selfInput},now())
+	</insert>
+
+    <update id="update">
+		UPDATE person_info SET
+		  <if test="userid != null and userid != ''">user_id = #{userid},</if>
+          <if test="selfInput != null and selfInput != ''">self_input = #{selfInput},</if>
+		  name = #{name} WHERE id = #{id}
+	</update>
+
+    <update id="delete">
+		DELETE FROM person_info WHERE id = #{id}
+	</update>
+</mapper>
