@@ -26,4 +26,4 @@
         2.5.6. 启用redis服务：systemctl enable redis.service
 
 3.mybatis功能点说明：
-    3.1. 在pom.xml中增加引用
+    3.1. 
