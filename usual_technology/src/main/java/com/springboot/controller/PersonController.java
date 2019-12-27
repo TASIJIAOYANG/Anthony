@@ -2,10 +2,13 @@ package com.springboot.controller;
 
 import com.springboot.entity.Person_Info;
 import com.springboot.service.PersonService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,11 @@ public class PersonController{
     @Autowired
     private PersonService personService;
 
-    @RequestMapping("/getPersonList")
+    /**
+     * 获取列表信息
+     * @return
+     */
+    @RequestMapping(value = "/getPersonList", method = RequestMethod.GET)
     public List<Person_Info> getPersonList(){
         List<Person_Info> personInfoList = new ArrayList<>();
         personInfoList = personService.getPersonInfoList();
@@ -31,6 +38,9 @@ public class PersonController{
         return personInfoList;
     }
 
+    /**
+     * 执行插入
+     */
     @RequestMapping("/insertPersonInfo")
     public void insertPersonInfo(){
         Person_Info person_info = new Person_Info();
@@ -40,6 +50,9 @@ public class PersonController{
         personService.insert(person_info);
     }
 
+    /**
+     * 更新个人信息
+     */
     @RequestMapping("/updatePersonInfo")
     public void updatePersonInfo(){
         Person_Info person_info = new Person_Info();
@@ -48,6 +61,9 @@ public class PersonController{
         personService.update(person_info);
     }
 
+    /**
+     * 删除个人信息
+     */
     @RequestMapping("/deletePersonInfo")
     public void deletePersonInfo(){
         Person_Info person_info = new Person_Info();
