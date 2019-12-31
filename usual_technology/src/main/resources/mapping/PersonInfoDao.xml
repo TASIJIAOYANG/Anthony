@@ -30,10 +30,12 @@
         <result property="selfInput" column="self_input" />
     </resultMap>
 
-    <!--用于配置关联其他表的sql-->
+    <!--用于配置关联其他表的sql【样例】-->
     <sql id="personListingJoins">
+        inner join sys_user b on a.user_id = b.id
     </sql>
 
+    <!--注意点：注意查询返回值resultType和resultMap的区别，如果不清楚，自行百度-->
     <select id="get" resultType="com.springboot.entity.Person_Info">
         SELECT
         <include refid="personInfoColumns"/>
